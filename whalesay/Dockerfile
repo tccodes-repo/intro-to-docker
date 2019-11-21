@@ -6,4 +6,4 @@ FROM docker/whalesay
 LABEL MAINTAINER="Derek Smith"
 
 # Overriding the command to provide our own arguments
-CMD ["coway", "Hello from Derek!"]
+CMD ["cowsay", "Hello from Derek!"]
