@@ -180,7 +180,7 @@ configs, and other dependencies.  **Containers** are a running instance of an **
   - **Image** - Provides the definition of **what** to run.  This is where you have the executables for things like MySQL, Nginx, Mongodb, etc.
 
 <p align="center">
-    <img src="images/containers_and_images.png" />
+    <img src="img/containers_and_images.png" />
 </p>
 
 ## Your first image
@@ -217,7 +217,7 @@ creates a new image containing our arguments of what we want the whale to say.
 Create a new directory in [VS Code] named `whalesay`.  Then create a new file and name 
 it `Dockerfile`.  Notice that [VS Code] will recognize the file as a docker file.
 
-![vscode_docker_file](images/whalesay_folder.png)
+![vscode_docker_file](img/whalesay_folder.png)
 
 Add the following to the [Dockerfile] you created.
 
@@ -585,7 +585,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 We can now access our application in the browser.
 
-![app_browser](images/node_app_browser.png)
+![app_browser](img/node_app_browser.png)
 
 ### Dockerizing our App
 
@@ -676,7 +676,7 @@ practice.
 We mapped the internal port of `3000` to our host port of `8080`, so we can acess our
 application using `http://localhost:8080`.
 
-![app_on_8080](images/app_on_8080.png)
+![app_on_8080](img/app_on_8080.png)
 
 
 
