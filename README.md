@@ -666,7 +666,15 @@ $ docker run --rm -p 8080:3000 node-example
 Example app listening on port 3000!
 ```
 
-And access our app on port `8080`.
+The command above added in a new argument for `-p 8080:3000`.  The `-p` argument allows
+you to map ports from inside the container to the host.  Remember, [Docker] containers 
+are isolated from each other and the operating system, so by default their ports will
+not be accessible outside the container.  You can use `--net=host` as an argument, 
+which will make all of the ports accessible, but this is generally considered bad 
+practice.
+
+We mapped the internal port of `3000` to our host port of `8080`, so we can acess our
+application using `http://localhost:8080`.
 
 ![app_on_8080](images/app_on_8080.png)
 
