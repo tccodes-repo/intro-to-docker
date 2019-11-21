@@ -40,7 +40,7 @@ The diagram below shows where containers fit in the modern application platform.
 </p>
 
 There is currently a lot of hype around serverless, however with serverless
-you loose most of the control over the environment, which is why you have to
+you lose most of the control over the environment, which is why you have to
 execute it in something like AWS Lamdba.  Containers free you from worrying about
 the underyling physical resources, but still give you benfits of being able to 
 run your code anywhere.
