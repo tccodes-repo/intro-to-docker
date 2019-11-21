@@ -17,6 +17,7 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
   - [Dockerizing our App](#dockerizing-our-app)
 - [Docker Compose](#docker-compose)
   - [docker-compose.yml](#docker-composeyml)
+  - [Developing your app](#developing-your-app)
 
 
 ## Getting Started
@@ -770,6 +771,43 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 5b0233a2a047        mongo:3.2           "docker-entrypoint.s…"   30 seconds ago      Up 29 seconds       0.0.0.0:27017->27017/tcp                         compose_mongo_1
 ac8583fe1259        mailhog/mailhog     "MailHog"                30 seconds ago      Up 30 seconds       0.0.0.0:1025->1025/tcp, 0.0.0.0:8025->8025/tcp   compose_smtp_1
 ```
+
+### Developing your app
+
+I threw together a simple [express] application that allows a user to send an email, and logs it to MongoDb. The full description of this app is beyond the scope
+of this course, however here is the main code from the server side.
+
+I want to highlight the important parts of the [index.js](compose/index.js) file for the purposes of this lesson.  
+
+**Connecting to Mongo**
+
+The code creates a connection to MongoDb using `localhost` and the default mongo port.  Remember in our `docker-compose.yml` we setup this service and 
+mapped those ports to our host.  This means we can communicate with them using `localhost` or `127.0.0.1`.
+
+```javascript
+// Connection URL
+const url = 'mongodb://localhost:27017';
+
+// Database Name
+const dbName = 'compose';
+
+// Create a new MongoClient
+const client = new MongoClient(url);
+```
+
+**Connecting to Mailhog**
+
+It also creates a connect to our fake SMTP server here.
+```javascript
+let transport = nodemailer.createTransport({
+    host: '127.0.0.1',
+    port: 1025
+});
+```
+
+With both of these things in place we can develop our code and use real live instances of our depencies.
+
+
 
 
 
