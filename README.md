@@ -170,9 +170,9 @@ configs, and other dependencies.  **Containers** are a running instance of an **
   - **Container** - Provides the environment for running the image.  It has its own set of environment variables, and is completely isolated from any other running containers, or applications on the host.
   - **Image** - Provides the definition of **what** to run.  This is where you have the executables for things like MySQL, Nginx, Mongodb, etc.
 
-<div style="text-align: center">
+<p align="center">
     <img src="images/containers_and_images.png" />
-</div>
+</p>
 
 
 [Docker]: https://www.docker.com/
