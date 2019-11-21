@@ -25,9 +25,25 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 
 ### Why Containers
 
+As software development moves toward the cloud, the underlying infrastructure
+used to serve the applications is becoming more and more abstracted from 
+the developer.  This started back in the early 2000's by virtualizing the 
+operating system using tools like VMware and Hyper-V.  The problem with virtual 
+machines is their size and complexity.  Containers on the other hand have  
+many of the same benefits of virtual machines, but end up being much smaller 
+and portable.  
+
+The diagram below shows where containers fit in the modern application platform. 
+
 <p align="center">
   <img src="img/application_server_virtualization.png" />
 </p>
+
+There is currently a lot of hype around serverless, however in a serverless
+you loose most of the control over the environment, which is why you have to
+execute it in something like AWS Lamdba.  Containers free you from worrying about
+the underyling physical resources, but still give you benfits of being able to 
+run your code anywhere.
 
 ### Hello World
 
