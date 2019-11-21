@@ -6,11 +6,11 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
   - [Hello World](#hello-world)
   - [The `docker` command](#the-docker-command)
 - [Images and Containers](#images-and-containers)
-  - [Your first image](#your-first-image)
-    - [The Dockerfile](#the-dockerfile)
-    - [Building the Image](#building-the-image)
-    - [Running the Image](#running-the-image)
-    - [Tagging the Image](#tagging-the-image)
+- [Your first image](#your-first-image)
+  - [The Dockerfile](#the-dockerfile)
+  - [Building the Image](#building-the-image)
+  - [Running the Image](#running-the-image)
+  - [Tagging the Image](#tagging-the-image)
 - [Dockerizing a Node Application](#dockerizing-a-node-application)
   - [Initialize the application](#initialize-the-application)
   - [Creating the Express server](#creating-the-express-server)
@@ -183,7 +183,7 @@ configs, and other dependencies.  **Containers** are a running instance of an **
     <img src="images/containers_and_images.png" />
 </p>
 
-### Your first image
+## Your first image
 
 For this part of the lesson we are going to use the [whalesay]
 image to show create or own image.
@@ -213,7 +213,7 @@ The output will look like this:
           \____\______/  
 ```
 
-#### The Dockerfile
+### The Dockerfile
 
 [Docker] uses a file called [Dockerfile] to define the instructions for building an
 image. We will create a [Dockerfile] that builds on top of the [whalesay] image and 
@@ -238,7 +238,7 @@ LABEL MAINTAINER="Derek Smith"
 CMD ["cowsay", "Hello from Derek!"]
 ```
 
-#### Building the Image
+### Building the Image
 
 Now that we have a valid [Dockerfile] we can build our image using the `docker build` command.
 
@@ -299,7 +299,7 @@ Successfully built a2c434e73458
 ```
 Finally docker is telling us that it successfully built our image, and the SHA hash for that image is `a2c434e73458`.  We can how use that SHA to reference our image when ever we want to use it.
 
-#### Running the Image
+### Running the Image
 
 To run the image we just created run the following command:
 
@@ -329,7 +329,7 @@ You should see the command we provided in the build.
 
 Great, now anyone in the world can run our image and get the same result!
 
-#### Tagging the Image
+### Tagging the Image
 
 SHA hashes aren't exactly easy to remember (kind of like IP Addresses).  So docker gives us a way to apply names to the images with **tags**.  This will make it easier 
 for us to distribute and reuse our images.
@@ -700,6 +700,7 @@ Example app listening on port 3000!
 And access our app on port `8080`.
 
 ![app_on_8080](images/app_on_8080.png)
+
 
 
 
