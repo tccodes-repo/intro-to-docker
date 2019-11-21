@@ -3,7 +3,43 @@
     <head>
         <title>Sample</title>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="app.js"></script>
+        <style type="text/css">
+
+            #container .row {
+                width: 500px;
+                border: solid 1px rgb(229,229,229);
+                padding: 4px;
+                border-bottom: 0;
+                position: relative;
+            }
+
+            #container .row.last {
+                border-bottom: solid 1px rgb(229,229,229);    
+            }
+
+            #container .sentTo {
+                width: 250px;
+            }
+
+            #container .sentOn {
+                position: absolute;
+                top: 6px; 
+                right: 6px;
+                
+            }
+
+            label {
+                display: block;
+                width: 250px;
+                padding: 6px 0;
+            }
+
+            textarea {
+                width: 300px;
+                height: 100px;
+            }
+        </style>
     </head>
     <body>
 
@@ -13,13 +49,25 @@
                 <input type="text" name="email" />
             </div>
             <div>
+                <label>Subject:</label>
+                <input type="text" name="subject" />
+            </div>
+            <div>
+                <label>Body:</label>
+            </div>
+            <div>
+                <textarea name="body"></textarea>
+            </div>
+            <div>
                 <input type="submit" />
             </div>
             
         </form>
 
+        <hr />
+
         <div id="container">
-            
+
         </div>
 
     </body>

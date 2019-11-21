@@ -49,8 +49,8 @@ function sendEmail(db) {
         const message = {
             from: 'system@20fathoms.org',
             to: req.body.sendTo,
-            subject: 'Hello from Tccodes!',
-            text: 'This is a test email from Tccodes'
+            subject: req.body.subject,
+            text: req.body.body
         };
 
         transport.sendMail(message, function(err, info) {
@@ -63,6 +63,8 @@ function sendEmail(db) {
 
         await collection.insertOne({
             to: req.body.sendTo,
+            subject: req.body.subject,
+            body: req.body.body,
             dateSent: new Date(),    
         });
 
