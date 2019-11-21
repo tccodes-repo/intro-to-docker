@@ -8,7 +8,9 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 - [Images and Containers](#images-and-containers)
   - [Your first image](#your-first-image)
     - [The Dockerfile](#the-dockerfile)
-    - [Building The Image](#building-the-image)
+    - [Building the Image](#building-the-image)
+    - [Running the Image](#running-the-image)
+    - [Tagging the Image](#tagging-the-image)
 
 
 ## Getting Started
@@ -229,10 +231,10 @@ FROM docker/whalesay
 LABEL MAINTAINER="Derek Smith"
 
 # Overriding the command to provide our own arguments
-CMD ["coway", "Hello from Derek!"]
+CMD ["cowsay", "Hello from Derek!"]
 ```
 
-#### Building The Image
+#### Building the Image
 
 Now that we have a valid [Dockerfile] we can build our image using the `docker build` command.
 
@@ -265,6 +267,216 @@ The first line `Sending build context to Docker daemon  2.048kB` is creating the
 > IMPORANT: Docker cannot see ANYTHING outside of the context you provide it.  
 > This was done for security purposes.  For example, you cannt include a file that
 > is above the context folder in your image such as (..\..\config.json).
+
+```
+Step 1/3 : FROM docker/whalesay
+ ---> 6b362a9f73eb
+ ``` 
+These lines are saying that this image will start from the image identified with 
+the SHA hash of `6b362a9f73eb`. Each docker image has a unique SHA hash that
+identifies the image.  The `docker/whalesay` is a **tag** that is applied to make it
+easier to find. 
+
+```
+Step 2/3 : LABEL MAINTAINER="Derek Smith"
+ ---> Running in 86b88456758b
+```
+There is another imporant thing going on here.  Notice that after each **step** we 
+get a new SHA hash. This is because docker images are built on layers, and the
+combination of layers make up the final image.  The use of layers is key to how
+works and has many advantages such as:
+
+   - **Immutable/Reusable** - Each layer is immutable meaning it can never change.  Keeping the layers small allows docker systems to effeciently download and cache the layers that are used frequently.
+   - **Optimize Build** - Because each layer contains the results of a single action, docker can reuse the layers that haven't changed on each build.
+   - **Optimzed Storage** - If you run 100 containers that were built on the **NodeJS** image, docker only has to store one copy of that image.
+
+```
+Successfully built a2c434e73458
+```
+Finally docker is telling us that it successfully built our image, and the SHA hash for that image is `a2c434e73458`.  We can how use that SHA to reference our image when ever we want to use it.
+
+#### Running the Image
+
+To run the image we just created run the following command:
+
+```
+docker run --rm a2c434e73458
+```
+
+> The `--rm` just tells docker to delete the container when it is done running.  Without this it would keep it around, which we don't want.
+
+You should see the command we provided in the build.
+
+```
+< Hello from Derek! >
+ ------------------- 
+    \
+     \
+      \     
+                    ##        .            
+              ## ## ##       ==            
+           ## ## ## ##      ===            
+       /""""""""""""""""___/ ===        
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
+       \______ o          __/            
+        \    \        __/             
+          \____\______/   
+```
+
+Great, now anyone in the world can run our image and get the same result!
+
+#### Tagging the Image
+
+SHA hashes aren't exactly easy to remember (kind of like IP Addresses).  So docker gives us a way to apply names to the images with **tags**.  This will make it easier 
+for us to distribute and reuse our images.
+
+Let's run `docker build` command again, but this time apply a tag.
+
+```
+docker build -t mywhalesay .
+```
+
+The output will look like this.
+
+```
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM docker/whalesay
+ ---> 6b362a9f73eb
+Step 2/3 : LABEL MAINTAINER="Derek Smith"
+ ---> Using cache
+ ---> ce0bc3c90da1
+Step 3/3 : CMD ["cowsay", "Hello from Derek!"]
+ ---> Using cache
+ ---> 7f8ffcff3355
+Successfully built 7f8ffcff3355
+Successfully tagged mywhalesay:latest
+```
+
+It looks almost identical to the previous build, however there is a new line at the end. 
+```
+Successfully tagged mywhalesay:latest
+```
+
+You are probably wondering where `:latest` came from, since we did not type it above. 
+[Tags] come in the form of `IMAGE[:TAG]` where the actual `TAG` portion is optional. If
+you do not supply it, [Docker] will default to `:latest`.  It also defaults it to `:latest` using the run command. 
+
+```
+docker run mywhalesah
+```
+
+Will output
+``` 
+___________________ 
+< Hello from Derek! >
+ ------------------- 
+    \
+     \
+      \     
+                    ##        .            
+              ## ## ##       ==            
+           ## ## ## ##      ===            
+       /""""""""""""""""___/ ===        
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
+       \______ o          __/            
+        \    \        __/             
+          \____\______/  
+```
+
+Let's do something else like create two versions of our image to see how this works. 
+Run the following command to also tag our `:latest` image with `:1.0`
+
+```
+docker tag mywhalesay:latest mywhalesay:1.0
+```
+
+Now go back to your [Dockerfile] and add `v2.0` to the message.  Our [Dockerfile] will
+look like this.
+
+```dockerfile
+# Defines what image we want to start from
+# TIP: You can start from your own images
+FROM docker/whalesay
+
+# A helpful label to know who created this
+LABEL MAINTAINER="Derek Smith"
+
+# Overriding the command to provide our own arguments
+CMD ["cowsay", "Hello from Derek! v2.0"]
+```
+
+If we build our image again, we will get the new image and it will take over the `:latest` tag.
+
+```
+docker build -t mywhalesay .
+```
+
+Again the output looks like this.
+```
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM docker/whalesay
+ ---> 6b362a9f73eb
+Step 2/3 : LABEL MAINTAINER="Derek Smith"
+ ---> Using cache
+ ---> ce0bc3c90da1
+Step 3/3 : CMD ["cowsay", "Hello from Derek!"]
+ ---> Using cache
+ ---> 7f8ffcff3355
+Successfully built 7f8ffcff3355
+Successfully tagged mywhalesay:latest
+```
+
+> Notice how the output now shows `---> Using cache` for the images in steps 2 and 3. Docker is saying it doesn't need to rebuild that image because nothing has changed.
+
+If we run our container now we will see the new message.
+
+```
+docker run --rm mywhalesay
+```
+
+The output will be.
+
+```
+ ________________________ 
+< Hello from Derek! v2.0 >
+ ------------------------ 
+    \
+     \
+      \     
+                    ##        .            
+              ## ## ##       ==            
+           ## ## ## ##      ===            
+       /""""""""""""""""___/ ===        
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
+       \______ o          __/            
+        \    \        __/             
+          \____\______/   
+```
+
+Now, we can run still run our `1.0` image because we tagged it with something other than `:latest`.
+
+```
+docker run --rm mywhalesay:1.0
+```
+
+Will output our original message.
+```
+ ___________________ 
+< Hello from Derek! >
+ ------------------- 
+    \
+     \
+      \     
+                    ##        .            
+              ## ## ##       ==            
+           ## ## ## ##      ===            
+       /""""""""""""""""___/ ===        
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
+       \______ o          __/            
+        \    \        __/             
+          \____\______/   
+```
+
 
 
 
