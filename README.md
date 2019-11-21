@@ -6,6 +6,9 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
   - [Hello World](#hello-world)
   - [The `docker` command](#the-docker-command)
 - [Images and Containers](#images-and-containers)
+  - [Your first image](#your-first-image)
+    - [The Dockerfile](#the-dockerfile)
+    - [Building The Image](#building-the-image)
 
 
 ## Getting Started
@@ -174,6 +177,109 @@ configs, and other dependencies.  **Containers** are a running instance of an **
     <img src="images/containers_and_images.png" />
 </p>
 
+### Your first image
+
+For this part of the lesson we are going to use the [whalesay]
+image to show create or own image.
+
+To see what the [whalesay] image does, run the following command:
+
+```
+docker run docker/whalesay cowsay 'Hello tccodes!'
+```
+
+The output will look like this:
+
+```
+ ________________ 
+< Hello tccodes! >
+ ---------------- 
+    \
+     \
+      \     
+                    ##        .            
+              ## ## ##       ==            
+           ## ## ## ##      ===            
+       /""""""""""""""""___/ ===        
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~   
+       \______ o          __/            
+        \    \        __/             
+          \____\______/  
+```
+
+#### The Dockerfile
+
+[Docker] uses a file called [Dockerfile] to define the instructions for building an
+image. We will create a [Dockerfile] that builds on top of the [whalesay] image and 
+creates a new image containing our arguments of what we want the whale to say.
+
+Create a new directory in [VS Code] named `whalesay`.  Then create a new file and name 
+it `Dockerfile`.  Notice that [VS Code] will recognize the file as a docker file.
+
+![vscode_docker_file](images/whalesay_folder.png)
+
+Add the following to the [Dockerfile] you created.
+
+```dockerfile
+# Defines what image we want to start from
+# TIP: You can start from your own images
+FROM docker/whalesay
+
+# A helpful label to know who created this
+LABEL MAINTAINER="Derek Smith"
+
+# Overriding the command to provide our own arguments
+CMD ["coway", "Hello from Derek!"]
+```
+
+#### Building The Image
+
+Now that we have a valid [Dockerfile] we can build our image using the `docker build` command.
+
+To build the file run:
+
+```
+docker build .
+```
+
+You should see something like this:
+```
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM docker/whalesay
+ ---> 6b362a9f73eb
+Step 2/3 : LABEL MAINTAINER="Derek Smith"
+ ---> Running in 86b88456758b
+Removing intermediate container 86b88456758b
+ ---> ce0bc3c90da1
+Step 3/3 : CMD ["coway", "Hello from Derek!"]
+ ---> Running in 4754e0ea1449
+Removing intermediate container 4754e0ea1449
+ ---> a2c434e73458
+Successfully built a2c434e73458
+```
+
+**What's going on here?**
+
+The first line `Sending build context to Docker daemon  2.048kB` is creating the **context** for building the container.  The final argument of the `build` command defines the context, which we provide `.` in our example. The `.` is short for the current directory.  
+
+> IMPORANT: Docker cannot see ANYTHING outside of the context you provide it.  
+> This was done for security purposes.  For example, you cannt include a file that
+> is above the context folder in your image such as (..\..\config.json).
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [Docker]: https://www.docker.com/
 [docker cli]: https://docs.docker.com/engine/reference/commandline/cli/
+[whalesay]: https://hub.docker.com/r/docker/whalesay/
+[Dockerfile]: https://docs.docker.com/engine/reference/builder/
