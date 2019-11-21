@@ -3,6 +3,7 @@
 This repository was created for the Intro to [Docker] workshop at TCcodes.  
 
 - [Getting Started](#getting-started)
+  - [Why Containers](#why-containers)
   - [Hello World](#hello-world)
   - [The `docker` command](#the-docker-command)
 - [Images and Containers](#images-and-containers)
@@ -21,6 +22,12 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 
 
 ## Getting Started
+
+### Why Containers
+
+<p align="center">
+  <img src="img/application_server_virtualization.png" />
+</p>
 
 ### Hello World
 
@@ -808,8 +815,6 @@ let transport = nodemailer.createTransport({
 With both of these things in place we can develop our code and use real live instances of our depencies.
 
 ![send_mail](img/send_mail.gif)
-
-
 
 
 [Docker]: https://www.docker.com/
