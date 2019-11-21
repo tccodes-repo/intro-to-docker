@@ -26,7 +26,7 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 ### Why Containers
 
 As software development moves toward the cloud, the underlying infrastructure
-used to serve the applications is becoming more and more abstracted from 
+used to serve applications is becoming more and more abstracted from 
 the developer.  This started back in the early 2000's by virtualizing the 
 operating system using tools like VMware and Hyper-V.  The problem with virtual 
 machines is their size and complexity.  Containers on the other hand have  
