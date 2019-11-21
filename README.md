@@ -47,8 +47,8 @@ run your code anywhere.
 
 ### Hello World
 
-As with any new development technology Docker has a `hello-world` image you can use to 
-make sure your [Docker] environment is setup correctly.  
+Yes [Docker] comes with the infamous **Hello World** example.  They provide an image
+tagged `hello-world` that can be used to test your docker installation.
 
 Run the following command
 
