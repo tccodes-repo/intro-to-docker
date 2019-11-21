@@ -11,6 +11,9 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
     - [Building the Image](#building-the-image)
     - [Running the Image](#running-the-image)
     - [Tagging the Image](#tagging-the-image)
+- [Dockerizing a Node Application](#dockerizing-a-node-application)
+  - [Initialize the application](#initialize-the-application)
+  - [Creating the Express server](#creating-the-express-server)
 
 
 ## Getting Started
@@ -478,6 +481,140 @@ Will output our original message.
 ```
 
 
+## Dockerizing a Node Application
+
+Now that we can create docker images and containers, we are going to take a look at
+how you would build a real application image. For this part of the lesson we will
+build a simlpe [express] server using [NodeJS].
+
+### Initialize the application
+
+To get started we will create and intiailize a [NodeJS] application.
+
+Create a new folder named **node-example**.  Then run the following command 
+inside the new folder.  Press enter to accept all the defaults.
+
+```
+npm init
+
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help json` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (example) 
+version: (1.0.0) 
+description: 
+entry point: (index.js) 
+test command: 
+git repository: 
+keywords: 
+author: 
+license: (ISC) 
+About to write to .../tccodes-repo/intro-to-docker/node-example/package.json:
+
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
+
+Is this OK? (yes) 
+```
+
+### Creating the Express server
+
+Install the [express] library
+```
+npm install --save express
+```
+
+Next, create a file name `index.js` with the following content.
+
+```javascript
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => res.send('Hello World!'))
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+```
+
+Finally, lets edit the `package.json` to set up the **start** script.
+
+```
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+```
+
+We can run our app using the following command.
+```
+npm run start
+
+> example@1.0.0 start /Users/derek/Projects/tccodes-repo/intro-to-docker/node-example
+> node index.js
+
+Example app listening on port 3000!
+```
+
+In order to make this app a little more realistic we will serve a static web page from the 
+server.  
+
+Create a new folder named **public** in the **node-example** directory.  Then add a file 
+named **index.html** with the following contents.
+
+```html
+<html>
+<head>
+    <title>TCCodes Node App</title>
+</head>
+<body>
+    <p>Checkout TCCodes!</p>
+</body>
+</html>
+```
+
+Finally, change the `index.js` file to use the `express.static()` middleware.
+
+```javascript
+const express = require('express')
+const app = express()
+const port = 3000
+
+// app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static('public'));
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+```
+
+
+
 
 
 
@@ -495,3 +632,5 @@ Will output our original message.
 [docker cli]: https://docs.docker.com/engine/reference/commandline/cli/
 [whalesay]: https://hub.docker.com/r/docker/whalesay/
 [Dockerfile]: https://docs.docker.com/engine/reference/builder/
+[NodeJS]: https://nodejs.org/en/
+[express]: https://expressjs.com/
