@@ -50,7 +50,7 @@ For more examples and ideas, visit:
 
 ### Examine the `docker` command
 
-The [docker cli](https://docs.docker.com/engine/reference/commandline/cli/) is the main application for creating, managing, and distributing
+The [docker cli]is the main application for creating, managing, and distributing
 [Docker] containers.
 
 The [docker cli] has many sub commands that make it very powerful.  We will not cover 
@@ -156,3 +156,4 @@ Run 'docker COMMAND --help' for more information on a command.
 
 
 [Docker]: https://www.docker.com/
+[docker cli]: https://docs.docker.com/engine/reference/commandline/cli/
