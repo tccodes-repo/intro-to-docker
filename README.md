@@ -15,6 +15,8 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
   - [Initialize the application](#initialize-the-application)
   - [Creating the Express server](#creating-the-express-server)
   - [Dockerizing our App](#dockerizing-our-app)
+- [Docker Compose](#docker-compose)
+  - [docker-compose.yml](#docker-composeyml)
 
 
 ## Getting Started
@@ -679,6 +681,95 @@ application using `http://localhost:8080`.
 ![app_on_8080](img/app_on_8080.png)
 
 
+## Docker Compose
+
+[Docker] makes it very easy to package, distribute, and run any application. Almost
+every major vendor has put out [Docker] containers with their software, yes you can 
+even run [Microsoft SQL Server in a Linux Docker container](https://hub.docker.com/_/microsoft-mssql-server).
+
+[Docker Compose] builds on [Docker] and makes it easy to run multiple images at the 
+same time.  Which means you can standup things like [MongoDb] and [Redis] as locally
+running services to use when developing your application.  
+
+In this example we will setup a [Docker Compose] setup that runs two services for us 
+to use [MongoDb] and a fake email server.
+
+### docker-compose.yml
+
+[Docker Compose] uses a YAML file for storing its configuration.  By default this file
+should be named `docker-compose.yml`.  
+
+Create a folder named `compose`, and then create a file named `docker-compose.yml` with
+the following content.
+
+```yml
+version: '2.1'
+
+services:
+  mongo:
+    image: mongo:3.2
+    ports:
+      - "27017:27017"
+  
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+```
+
+The first line of the file tells [Docker Compose] what version of the file we are using.
+
+After that we list the `services` that we want to run inside the enviornment.  In this
+example we are running [MongoDb] 3.2 and a fake SMTP server I found called [mailhog](https://github.com/mailhog/MailHog). 
+
+To start up our services we use the docker-compose command.
+
+```
+$ docker-compose up -d
+Creating network "compose_default" with the default driver
+Pulling mongo (mongo:3.2)...
+3.2: Pulling from library/mongo
+a92a4af0fb9c: Pull complete
+74a2c7f3849e: Pull complete
+927b52ab29bb: Pull complete
+e941def14025: Pull complete
+be6fce289e32: Pull complete
+f6d82baac946: Pull complete
+7c1a640b9ded: Pull complete
+e8b2fc34c941: Pull complete
+1fd822faa46a: Pull complete
+61ba5f01559c: Pull complete
+db344da27f9a: Pull complete
+Digest: sha256:0463a91d8eff189747348c154507afc7aba045baa40e8d58d8a4c798e71001f3
+Status: Downloaded newer image for mongo:3.2
+Pulling smtp (mailhog/mailhog:)...
+latest: Pulling from mailhog/mailhog
+d6a5679aa3cf: Pull complete
+a1300bbb94d5: Pull complete
+0f03c49950cb: Pull complete
+b96c5d9bff5f: Pull complete
+Digest: sha256:98c7e2e6621c897ad86f31610d756d76b8ee622c354c28a76f4ed49fb6ed996f
+Status: Downloaded newer image for mailhog/mailhog:latest
+Creating compose_smtp_1  ... done
+Creating compose_mongo_1 ... done
+```
+
+The output shows us that [Docker Compose] downloaded the images it needed, and created 
+containers.  You also see an interesting line `Creating network "compose_default" with the default driver`.  This is because [Docker Compose] creates an isolated network for
+your containers to run, you can think of it as a virtual network just for your containers.
+
+The `-d` parameter tells [Docker Compose] to run the service as a **daemon**, or 
+basically, keep them running after the command completes.
+
+To see the containers that were created run:
+
+```
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                            NAMES
+5b0233a2a047        mongo:3.2           "docker-entrypoint.s…"   30 seconds ago      Up 29 seconds       0.0.0.0:27017->27017/tcp                         compose_mongo_1
+ac8583fe1259        mailhog/mailhog     "MailHog"                30 seconds ago      Up 30 seconds       0.0.0.0:1025->1025/tcp, 0.0.0.0:8025->8025/tcp   compose_smtp_1
+```
 
 
 
@@ -688,3 +779,6 @@ application using `http://localhost:8080`.
 [Dockerfile]: https://docs.docker.com/engine/reference/builder/
 [NodeJS]: https://nodejs.org/en/
 [express]: https://expressjs.com/
+[Docker Compose]: https://docs.docker.com/compose/
+[MongoDb]: https://www.mongodb.com/
+[Redis]: https://redis.io/
