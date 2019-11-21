@@ -14,6 +14,7 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 - [Dockerizing a Node Application](#dockerizing-a-node-application)
   - [Initialize the application](#initialize-the-application)
   - [Creating the Express server](#creating-the-express-server)
+  - [Dockerizing our App](#dockerizing-our-app)
 
 
 ## Getting Started
@@ -612,6 +613,93 @@ app.use(express.static('public'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 ```
+
+We can now access our application in the browser.
+
+![app_browser](images/node_app_browser.png)
+
+### Dockerizing our App
+
+Now we want to package our applications so others can run it.  This is often referred 
+to as **dockerizing**.  
+
+First we create a file named `Dockerfile` in our **node-example** directory with the
+following content.
+
+```dockerfile
+FROM node:10
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
+COPY . .
+
+EXPOSE 3000
+CMD [ "npm", "run", "start"]
+```
+
+We can build our [Dockerfile] using the `docker build` command.
+
+```
+$ docker build -t node-example .
+
+Sending build context to Docker daemon  2.004MB
+Step 1/7 : FROM node:10
+ ---> e45bc9197ec9
+Step 2/7 : WORKDIR /usr/src/app
+ ---> Running in 64e6fdef1f5c
+Removing intermediate container 64e6fdef1f5c
+ ---> e248d663500c
+Step 3/7 : COPY package*.json ./
+ ---> d82d928d2ad2
+Step 4/7 : RUN npm install
+ ---> Running in 546aafca714b
+npm WARN example@1.0.0 No description
+npm WARN example@1.0.0 No repository field.
+
+added 50 packages from 37 contributors and audited 126 packages in 1.56s
+found 0 vulnerabilities
+
+Removing intermediate container 546aafca714b
+ ---> 7f3a245c50db
+Step 5/7 : COPY . .
+ ---> 4fc361d6b524
+Step 6/7 : EXPOSE 8080
+ ---> Running in 4d4a93112378
+Removing intermediate container 4d4a93112378
+ ---> 26ef3657a37a
+Step 7/7 : CMD [ "npm", "run", "start"]
+ ---> Running in 77926e703b97
+Removing intermediate container 77926e703b97
+ ---> 68b4f3f73975
+Successfully built 68b4f3f73975
+Successfully tagged node-example:latest
+```
+
+Then we can run the application using `docker run`.
+
+```
+$ docker run --rm -p 8080:3000 node-example
+
+> example@1.0.0 start /usr/src/app
+> node index.js
+
+Example app listening on port 3000!
+```
+
+And access our app on port `8080`.
+
+![app_on_8080](images/app_on_8080.png)
 
 
 
