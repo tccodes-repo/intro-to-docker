@@ -2,6 +2,9 @@
 
 This repository was created for the Intro to [Docker] workshop at TCcodes.  
 
+- [Getting Started](#getting-started)
+  - [Hello World](#hello-world)
+  - [Examine the `docker` command](#examine-the-docker-command)
 
 
 ## Getting Started
@@ -50,7 +53,7 @@ For more examples and ideas, visit:
 
 ### Examine the `docker` command
 
-The [docker cli]is the main application for creating, managing, and distributing
+The [docker cli] is the main application for creating, managing, and distributing
 [Docker] containers.
 
 The [docker cli] has many sub commands that make it very powerful.  We will not cover 
@@ -152,6 +155,8 @@ Commands:
 
 Run 'docker COMMAND --help' for more information on a command.
 ```
+
+For this lesson we are going to focs on the `run`, `build`, `pull`, and `push` commands.
 
 
 
