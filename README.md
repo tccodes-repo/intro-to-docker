@@ -191,12 +191,7 @@ image to show create or own image.
 To see what the [whalesay] image does, run the following command:
 
 ```
-docker run docker/whalesay cowsay 'Hello tccodes!'
-```
-
-The output will look like this:
-
-```
+$ docker run docker/whalesay cowsay 'Hello tccodes!'
  ________________ 
 < Hello tccodes! >
  ---------------- 
@@ -245,11 +240,7 @@ Now that we have a valid [Dockerfile] we can build our image using the `docker b
 To build the file run:
 
 ```
-docker build .
-```
-
-You should see something like this:
-```
+$ docker build .
 Sending build context to Docker daemon  2.048kB
 Step 1/3 : FROM docker/whalesay
  ---> 6b362a9f73eb
@@ -304,14 +295,7 @@ Finally docker is telling us that it successfully built our image, and the SHA h
 To run the image we just created run the following command:
 
 ```
-docker run --rm a2c434e73458
-```
-
-> The `--rm` just tells docker to delete the container when it is done running.  Without this it would keep it around, which we don't want.
-
-You should see the command we provided in the build.
-
-```
+$ docker run --rm a2c434e73458
 < Hello from Derek! >
  ------------------- 
     \
@@ -327,6 +311,9 @@ You should see the command we provided in the build.
           \____\______/   
 ```
 
+> The `--rm` just tells docker to delete the container when it is done running.  Without this it would keep it around, which we don't want.
+
+
 Great, now anyone in the world can run our image and get the same result!
 
 ### Tagging the Image
@@ -337,12 +324,7 @@ for us to distribute and reuse our images.
 Let's run `docker build` command again, but this time apply a tag.
 
 ```
-docker build -t mywhalesay .
-```
-
-The output will look like this.
-
-```
+$ docker build -t mywhalesay .
 Sending build context to Docker daemon  2.048kB
 Step 1/3 : FROM docker/whalesay
  ---> 6b362a9f73eb
@@ -366,11 +348,7 @@ You are probably wondering where `:latest` came from, since we did not type it a
 you do not supply it, [Docker] will default to `:latest`.  It also defaults it to `:latest` using the run command. 
 
 ```
-docker run mywhalesah
-```
-
-Will output
-``` 
+$ docker run mywhalesah
 ___________________ 
 < Hello from Derek! >
  ------------------- 
@@ -435,12 +413,7 @@ Successfully tagged mywhalesay:latest
 If we run our container now we will see the new message.
 
 ```
-docker run --rm mywhalesay
-```
-
-The output will be.
-
-```
+$ docker run --rm mywhalesay
  ________________________ 
 < Hello from Derek! v2.0 >
  ------------------------ 
@@ -460,11 +433,7 @@ The output will be.
 Now, we can run still run our `1.0` image because we tagged it with something other than `:latest`.
 
 ```
-docker run --rm mywhalesay:1.0
-```
-
-Will output our original message.
-```
+$ docker run --rm mywhalesay:1.0
  ___________________ 
 < Hello from Derek! >
  ------------------- 
@@ -700,18 +669,6 @@ Example app listening on port 3000!
 And access our app on port `8080`.
 
 ![app_on_8080](images/app_on_8080.png)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
