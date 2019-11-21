@@ -807,6 +807,7 @@ let transport = nodemailer.createTransport({
 
 With both of these things in place we can develop our code and use real live instances of our depencies.
 
+![send_mail](img/send_mail.gif)
 
 
 
