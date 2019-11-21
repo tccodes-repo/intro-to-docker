@@ -4,7 +4,8 @@ This repository was created for the Intro to [Docker] workshop at TCcodes.
 
 - [Getting Started](#getting-started)
   - [Hello World](#hello-world)
-  - [Examine the `docker` command](#examine-the-docker-command)
+  - [The `docker` command](#the-docker-command)
+- [Images and Containers](#images-and-containers)
 
 
 ## Getting Started
@@ -51,7 +52,7 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-### Examine the `docker` command
+### The `docker` command
 
 The [docker cli] is the main application for creating, managing, and distributing
 [Docker] containers.
@@ -158,6 +159,20 @@ Run 'docker COMMAND --help' for more information on a command.
 
 For this lesson we are going to focs on the `run`, `build`, `pull`, and `push` commands.
 
+## Images and Containers
+
+[Docker] uses **images** and **containers** to encapsulate and distribute your applications.
+**Images** are snapshots of your application that contain environment settings,
+configs, and other dependencies.  **Containers** are a running instance of an **image**.  When you execute `docker run` the [Docker] system will create a **container** that is executing.  Take a look at the digram below to see how this works.  In the digram you will see:
+
+  - **Linux Operating System** - Provides managent of resources such as CPU, Memory, Network, and File System.
+  - **Docker** - The docker system used to start, run, and manage **containers**.
+  - **Container** - Provides the environment for running the image.  It has its own set of environment variables, and is completely isolated from any other running containers, or applications on the host.
+  - **Image** - Provides the definition of **what** to run.  This is where you have the executables for things like MySQL, Nginx, Mongodb, etc.
+
+<div style="text-align: center">
+    <img src="images/containers_and_images.png" />
+</div>
 
 
 [Docker]: https://www.docker.com/
